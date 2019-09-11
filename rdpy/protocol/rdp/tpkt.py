@@ -24,7 +24,7 @@ Use to build correct size packet and handle slow path and fast path mode
 """
 from rdpy.core.layer import RawLayer
 from rdpy.core.type import UInt8, UInt16Be, sizeof
-from rdpy.core.error import CallPureVirtualFuntion
+from rdpy.core.error import CallPureVirtualFunction
 
 class Action(object):
     """
@@ -53,7 +53,7 @@ class IFastPathListener(object):
         @param secFlag: {SecFlags}
         @param fastPathS: {Stream}
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "recvFastPath", "IFastPathListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "recvFastPath", "IFastPathListener"))
     
     def initFastPath(self, fastPathSender):
         """
@@ -67,7 +67,7 @@ class IFastPathListener(object):
         """
         @param fastPathSender : {IFastPathSender}
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "setFastPathSender", "IFastPathListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "setFastPathSender", "IFastPathListener"))
     
 class IFastPathSender(object):
     """
@@ -79,7 +79,7 @@ class IFastPathSender(object):
         @param secFlag: {integer} Security flag for fastpath packet
         @param fastPathS: {Type | Tuple} type transform to stream and send as fastpath
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "sendFastPath", "IFastPathSender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "sendFastPath", "IFastPathSender"))
     
     def initFastPath(self, fastPathListener):
         """
@@ -93,7 +93,7 @@ class IFastPathSender(object):
         """
         @param fastPathListener: {IFastPathListener}
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "setFastPathListener", "IFastPathSender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "setFastPathListener", "IFastPathSender"))
 
 class TPKT(RawLayer, IFastPathSender):
     """

@@ -308,7 +308,7 @@ class OrderCapability(CompositeType):
     
     def __init__(self, readLen = None):
         CompositeType.__init__(self, readLen = readLen)
-        self.terminalDescriptor = String("\x00" * 16, readLen = CallableValue(16))
+        self.terminalDescriptor = String(b"\x00" * 16, readLen = CallableValue(16))
         self.pad4octetsA = UInt32Le(0)
         self.desktopSaveXGranularity = UInt16Le(1)
         self.desktopSaveYGranularity = UInt16Le(20)
@@ -388,7 +388,7 @@ class InputCapability(CompositeType):
         #same value as gcc.ClientCoreSettings.keyboardFnKeys
         self.keyboardFunctionKey = UInt32Le()
         #same value as gcc.ClientCoreSettingrrs.imeFileName
-        self.imeFileName = String("\x00" * 64, readLen = CallableValue(64))
+        self.imeFileName = String(b"\x00" * 64, readLen = CallableValue(64))
         
 class BrushCapability(CompositeType):
     """

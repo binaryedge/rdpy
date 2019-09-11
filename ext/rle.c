@@ -938,10 +938,18 @@ static PyMethodDef rle_methods[] =
      {"bitmap_decompress", bitmap_decompress_wrapper, METH_VARARGS, "decompress bitmap from microsoft rle algorithm."},
      {NULL, NULL, 0, NULL}
 };
- 
-PyMODINIT_FUNC
-initrle(void)
-{
-     (void) Py_InitModule("rle", rle_methods);
-}
 
+static struct PyModuleDef rle =
+{
+    PyModuleDef_HEAD_INIT,
+    "rle",
+	NULL,
+	-1,
+    rle_methods
+};
+
+PyMODINIT_FUNC
+PyInit_rle(void)
+{
+     return PyModule_Create(&rle);
+}

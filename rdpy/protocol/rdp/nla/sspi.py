@@ -21,7 +21,7 @@
 @summary: security service provider interface (Microsoft)
 """
 
-from rdpy.core.error import CallPureVirtualFuntion
+from rdpy.core.error import CallPureVirtualFunction
 
 class IAuthenticationProtocol(object):
     """
@@ -32,7 +32,7 @@ class IAuthenticationProtocol(object):
         @summary: Client first handshake message for authentication protocol
         @return: {object} first handshake message
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "getNegotiateMessage", "IAuthenticationProtocol")) 
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "getNegotiateMessage", "IAuthenticationProtocol")) 
     
     def getAuthenticateMessage(self, s):
         """
@@ -40,14 +40,14 @@ class IAuthenticationProtocol(object):
         @param s: {Stream} challenge message stream
         @return: {(object, IGenericSecurityService)} Last handshake message and interface for application
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "getAuthenticateMessage", "IAuthenticationProtocol"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "getAuthenticateMessage", "IAuthenticationProtocol"))
     
     def getEncodedCredentials(self):
         """
         @summary: return encoded credentials accorded with authentication protocol nego
         @return: (domain, username, password)
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "getEncodedCredentials", "IAuthenticationProtocol"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "getEncodedCredentials", "IAuthenticationProtocol"))
     
 class IGenericSecurityService(object):
     """
@@ -59,11 +59,11 @@ class IGenericSecurityService(object):
         @summary: encrypt data with key exchange in Authentication protocol
         @param data: {str}
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "GSS_WrapEx", "IGenericSecurityService"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "GSS_WrapEx", "IGenericSecurityService"))
     
     def GSS_UnWrapEx(self, data):
         """
         @summary: decrypt data with key exchange in Authentication protocol
         @param data: {str}
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "GSS_UnWrapEx", "IGenericSecurityService"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "GSS_UnWrapEx", "IGenericSecurityService"))

@@ -27,7 +27,7 @@ Implement Remote FrameBuffer protocol use in VNC client and server
 
 from rdpy.core.layer import RawLayer, RawLayerClientFactory
 from rdpy.core.type import UInt8, UInt16Be, UInt32Be, SInt32Be, String, CompositeType
-from rdpy.core.error import InvalidValue, CallPureVirtualFuntion
+from rdpy.core.error import InvalidValue, CallPureVirtualFunction
 from rdpy.security.pyDes import des
 import rdpy.core.log as log
 
@@ -35,10 +35,10 @@ class ProtocolVersion(object):
     """
     @summary: Different protocol version
     """
-    UNKNOWN = ""
-    RFB003003 = "RFB 003.003\n"
-    RFB003007 = "RFB 003.007\n"
-    RFB003008 = "RFB 003.008\n"
+    UNKNOWN = b""
+    RFB003003 = b"RFB 003.003\n"
+    RFB003007 = b"RFB 003.007\n"
+    RFB003008 = b"RFB 003.008\n"
 
 class SecurityType(object):
     """
@@ -158,7 +158,7 @@ class ClientCutText(CompositeType):
     @summary:  Client cut text message message
                 Use to simulate copy paste (ctrl-c ctrl-v) only for text
     """
-    def __init__(self, text = ""):
+    def __init__(self, text = b""):
         CompositeType.__init__(self)
         self.padding = (UInt16Be(), UInt8())
         self.size = UInt32Be(len(text))
@@ -204,7 +204,7 @@ class RFB(RawLayer):
         #current rectangle header
         self._currentRect = Rectangle()
         #for vnc security type
-        self._password = '\0' * 8
+        self._password = b'\0' * 8
     
     def expectWithHeader(self, expectedHeaderLen, callbackBody):
         """
@@ -310,10 +310,10 @@ class RFB(RawLayer):
         @summary: receive challenge in VNC authentication case
         @param data: Stream that contain well formed packet 
         """
-        key = (self._password + '\0' * 8)[:8]
+        key = (self._password + b'\0' * 8)[:8]
         newkey = []
         for ki in range(len(key)):
-            bsrc = ord(key[ki])
+            bsrc = key[ki]
             btgt = 0
             for i in range(8):
                 if bsrc & (1 << i):
@@ -504,20 +504,20 @@ class RFBClientListener(object):
         @param pixelFormat: pixelFormat struct of current session
         @param data: image data
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "recvRectangle", "RFBClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "recvRectangle", "RFBClientListener"))
     
     def onBell(self):
         """
         @summary: receive bip from server
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onBell", "RFBClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onBell", "RFBClientListener"))
     
     def onCutText(self, text):
         """
         @summary: Receive cut text from server
         @param text: text inner cut text event
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onCutText", "RFBClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onCutText", "RFBClientListener"))
     
         
 class RFBClientController(RFBClientListener):
@@ -686,7 +686,7 @@ class ClientFactory(RawLayerClientFactory):
         @param controller: controller use for rfb session
         @param addr: destination
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "buildObserver", "ClientFactory"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "buildObserver", "ClientFactory"))
     
         
 class RFBClientObserver(object):
@@ -730,13 +730,13 @@ class RFBClientObserver(object):
         """
         @summary: Event when network stack is ready to receive or send event
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onReady", "RFBClientObserver"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onReady", "RFBClientObserver"))
     
     def onClose(self):
         """
         @summary: On close event
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onClose", "RFBClientObserver"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onClose", "RFBClientObserver"))
     
     def onUpdate(self, width, height, x, y, pixelFormat, encoding, data):
         """
@@ -749,17 +749,17 @@ class RFBClientObserver(object):
         @param encoding : encoding struct from rfb.types
         @param data : in respect of dataFormat and pixelFormat
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onUpdate", "RFBClientObserver"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onUpdate", "RFBClientObserver"))
     
     def onCutText(self, text):
         """
         @summary: event when server send cut text event
         @param text: text received
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onCutText", "RFBClientObserver"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onCutText", "RFBClientObserver"))
     
     def onBell(self):
         """
         @summary: event when server send biiip
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onBell", "RFBClientObserver"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onBell", "RFBClientObserver"))

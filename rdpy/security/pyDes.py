@@ -71,8 +71,8 @@ k = des("DESCRYPT", CBC, "\0\0\0\0\0\0\0\0", pad=None, padmode=PAD_PKCS5)
 #   data = b"Please encrypt my data"
 #   k = des(b"DESCRYPT", CBC, b"\0\0\0\0\0\0\0\0", pad=None, padmode=PAD_PKCS5)
 d = k.encrypt(data)
-print "Encrypted: %r" % d
-print "Decrypted: %r" % k.decrypt(d)
+print("Encrypted: %r" % d)
+print("Decrypted: %r" % k.decrypt(d))
 assert k.decrypt(d, padmode=PAD_PKCS5) == data
 
 
@@ -85,9 +85,6 @@ Note: This code was not written for high-end systems needing a fast
 """
 
 import sys
-
-# _pythonMajorVersion is used to handle Python2 and Python3 differences.
-_pythonMajorVersion = sys.version_info[0]
 
 # Modes of crypting / cyphering
 ECB =    0
@@ -191,10 +188,7 @@ class _baseDes(object):
         
         elif padmode == PAD_PKCS5:
             pad_len = 8 - (len(data) % self.block_size)
-            if _pythonMajorVersion < 3:
-                data += pad_len * chr(pad_len)
-            else:
-                data += bytes([pad_len] * pad_len)
+            data += bytes([pad_len] * pad_len)
 
         return data
 
@@ -217,10 +211,7 @@ class _baseDes(object):
                        data[-self.block_size:].rstrip(pad)
 
         elif padmode == PAD_PKCS5:
-            if _pythonMajorVersion < 3:
-                pad_len = ord(data[-1])
-            else:
-                pad_len = data[-1]
+            pad_len = data[-1]
             data = data[:-pad_len]
 
         return data
@@ -228,17 +219,13 @@ class _baseDes(object):
     def _guardAgainstUnicode(self, data):
         # Only accept byte strings or ascii unicode values, otherwise
         # there is no way to correctly decode the data into bytes.
-        if _pythonMajorVersion < 3:
-            if isinstance(data, unicode):
-                raise ValueError("pyDes can only work with bytes, not Unicode strings.")
-        else:
-            if isinstance(data, str):
-                # Only accept ascii unicode values.
-                try:
-                    return data.encode('ascii')
-                except UnicodeEncodeError:
-                    pass
-                raise ValueError("pyDes can only work with encoded strings, not Unicode.")
+        if isinstance(data, str):
+            # Only accept ascii unicode values.
+            try:
+                return data.encode('ascii')
+            except UnicodeEncodeError:
+                pass
+            raise ValueError("pyDes can only work with encoded strings, not Unicode.")
         return data
 
 #############################################################################
@@ -415,10 +402,6 @@ class des(_baseDes):
 
     def __String_to_BitList(self, data):
         """Turn the string data, into a list of bits (1, 0)'s"""
-        if _pythonMajorVersion < 3:
-            # Turn the strings into integers. Python 3 uses a bytes
-            # class, which already has this behaviour.
-            data = [ord(c) for c in data]
         l = len(data) * 8
         result = [0] * l
         pos = 0
@@ -446,10 +429,7 @@ class des(_baseDes):
                 c = 0
             pos += 1
 
-        if _pythonMajorVersion < 3:
-            return ''.join([ chr(c) for c in result ])
-        else:
-            return bytes(result)
+        return bytes(result)
 
     def __permutate(self, table, block):
         """Permutate this block with the specified table"""
@@ -566,7 +546,7 @@ class des(_baseDes):
 
         # Error check the data
         if not data:
-            return ''
+            return b''
         if len(data) % self.block_size != 0:
             if crypt_type == des.DECRYPT: # Decryption must work on 8 byte blocks
                 raise ValueError("Invalid data length, data must be a multiple of " + str(self.block_size) + " bytes\n.")
@@ -574,7 +554,7 @@ class des(_baseDes):
                 raise ValueError("Invalid data length, data must be a multiple of " + str(self.block_size) + " bytes\n. Try setting the optional padding character")
             else:
                 data += (self.block_size - (len(data) % self.block_size)) * self.getPadding()
-            # print "Len of data: %f" % (len(data) / self.block_size)
+            # print("Len of data: %f" % (len(data) / self.block_size))
 
         if self.getMode() == CBC:
             if self.getIV():
@@ -591,8 +571,8 @@ class des(_baseDes):
         while i < len(data):
             # Test code for caching encryption results
             #lines += 1
-            #if dict.has_key(data[i:i+8]):
-                #print "Cached result for: %s" % data[i:i+8]
+            #if data[i:i+8] in dict:
+                #print("Cached result for: %s" % data[i:i+8])
             #    cached += 1
             #    result.append(dict[data[i:i+8]])
             #    i += 8
@@ -631,13 +611,10 @@ class des(_baseDes):
             #dict[data[i:i+8]] = d
             i += 8
 
-        # print "Lines: %d, cached: %d" % (lines, cached)
+        # print("Lines: %d, cached: %d" % (lines, cached))
 
         # Return the full crypted string
-        if _pythonMajorVersion < 3:
-            return ''.join(result)
-        else:
-            return bytes.fromhex('').join(result)
+        return b''.join(result)
 
     def encrypt(self, data, pad=None, padmode=None):
         """encrypt(data, [pad], [padmode]) -> bytes
@@ -795,10 +772,7 @@ class triple_des(_baseDes):
                 self.__key3.setIV(block)
                 result.append(block)
                 i += 8
-            if _pythonMajorVersion < 3:
-                return ''.join(result)
-            else:
-                return bytes.fromhex('').join(result)
+            return b''.join(result)
         else:
             data = self.__key1.crypt(data, ENCRYPT)
             data = self.__key2.crypt(data, DECRYPT)
@@ -841,10 +815,7 @@ class triple_des(_baseDes):
                 self.__key3.setIV(iv)
                 result.append(block)
                 i += 8
-            if _pythonMajorVersion < 3:
-                data = ''.join(result)
-            else:
-                data = bytes.fromhex('').join(result)
+            data = b''.join(result)
         else:
             data = self.__key3.crypt(data, DECRYPT)
             data = self.__key2.crypt(data, ENCRYPT)

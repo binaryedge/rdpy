@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2014-2015 Sylvain Peyrefitte
 #
@@ -27,9 +27,9 @@ import getopt
 import os
 import sys
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from rdpy.protocol.rdp import rdp
-from rdpy.ui.qt4 import RDPBitmapToQtImage
+from rdpy.ui.qt5 import RDPBitmapToQtImage
 import rdpy.core.log as log
 from rdpy.core.error import RDPSecurityNegoFail
 from twisted.internet import task
@@ -170,17 +170,17 @@ def main(width, height, path, timeout, hosts):
     @return: {list(tuple(ip, port, Failure instance)} list of connection state
     """
     #create application
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
 
-    #add qt4 reactor
-    import qt4reactor
-    qt4reactor.install()
+    #add qt5 reactor
+    import qt5reactor
+    qt5reactor.install()
 
     from twisted.internet import reactor
 
     for host in hosts:      
         if ':' in host:
-            ip, port = host.split(':')
+            ip, port = host.rsplit(':', 1)
         else:
             ip, port = host, "3389"
 
@@ -192,11 +192,11 @@ def main(width, height, path, timeout, hosts):
 
 
 def help():
-    print "Usage: rdpy-rdpscreenshot [options] ip[:port]"
-    print "\t-w: width of screen default value is 1024"
-    print "\t-l: height of screen default value is 800"
-    print "\t-o: file path of screenshot default(/tmp/rdpy-rdpscreenshot.jpg)"
-    print "\t-t: timeout of connection without any updating order (default is 2s)"
+    print("Usage: rdpy-rdpscreenshot [options] ip[:port]")
+    print("\t-w: width of screen default value is 1024")
+    print("\t-l: height of screen default value is 800")
+    print("\t-o: file path of screenshot default(/tmp/rdpy-rdpscreenshot.jpg)")
+    print("\t-t: timeout of connection without any updating order (default is 2s)")
 
 if __name__ == '__main__':
     # default script argument

@@ -44,7 +44,7 @@ class UTC(tzinfo):
         return ZERO
 
     def tzname(self, dt):
-        return "UTC"
+        return b"UTC"
 
     def dst(self, dt):
         return ZERO

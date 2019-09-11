@@ -64,7 +64,7 @@ def TypeAttributes(typeClass):
     @return: class decorator
     """
     def wrapper(cls):
-        for c_name, c_value in cls.__dict__.iteritems():
+        for c_name, c_value in cls.__dict__.items():
             if c_name[0] != '_' and not callable(c_value):
                 setattr(cls, c_name, typeClass(c_value))
         return cls

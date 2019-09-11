@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2014-2015 Sylvain Peyrefitte
 #
@@ -145,12 +145,12 @@ def help():
     """
     @summary: Print help in console
     """
-    print """
+    print("""
     Usage:  rdpy-rdphoneypot.py rss_filepath(1..n)
             [-l listen_port default 3389] 
             [-k private_key_file_path (mandatory for SSL)] 
             [-c certificate_file_path (mandatory for SSL)] 
-    """
+    """)
     
 if __name__ == '__main__':
     listen = "3389"
@@ -180,5 +180,5 @@ if __name__ == '__main__':
         rssFileSizeList.append((size, arg))
         log.info("(%s, %s) -> %s"%(size[0], size[1], arg))
     
-    reactor.listenTCP(int(listen), HoneyPotServerFactory(rssFileSizeList, privateKeyFilePath, certificateFilePath))
+    reactor.listenTCP(int(listen), HoneyPotServerFactory(rssFileSizeList, privateKeyFilePath, certificateFilePath), interface='::')
     reactor.run()

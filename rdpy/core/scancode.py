@@ -22,32 +22,32 @@ Basic virtual scancode mapping
 """
 
 _SCANCODE_QWERTY_ = {
-    0x10 : "q",
-    0x11 : "w",
-    0x12 : "e",
-    0x13 : "r",
-    0x14 : "t",
-    0x15 : "y",
-    0x16 : "u",
-    0x17 : "i",
-    0x18 : "o",
-    0x19 : "p",
-    0x1e : "a",
-    0x1f : "s",
-    0x20 : "d",
-    0x21 : "f",
-    0x22 : "g",
-    0x23 : "h",
-    0x24 : "j",
-    0x25 : "k",
-    0x26 : "l",
-    0x2c : "z",
-    0x2d : "x",
-    0x2e : "c",
-    0x2f : "v",
-    0x30 : "b",
-    0x31 : "n",
-    0x32 : "m"
+    0x10 : b"q",
+    0x11 : b"w",
+    0x12 : b"e",
+    0x13 : b"r",
+    0x14 : b"t",
+    0x15 : b"y",
+    0x16 : b"u",
+    0x17 : b"i",
+    0x18 : b"o",
+    0x19 : b"p",
+    0x1e : b"a",
+    0x1f : b"s",
+    0x20 : b"d",
+    0x21 : b"f",
+    0x22 : b"g",
+    0x23 : b"h",
+    0x24 : b"j",
+    0x25 : b"k",
+    0x26 : b"l",
+    0x2c : b"z",
+    0x2d : b"x",
+    0x2e : b"c",
+    0x2f : b"v",
+    0x30 : b"b",
+    0x31 : b"n",
+    0x32 : b"m"
 }
         
 def scancodeToChar(code):
@@ -55,6 +55,6 @@ def scancodeToChar(code):
     @summary: try to convert native code to char code
     @return: char
     """
-    if not _SCANCODE_QWERTY_.has_key(code):
-        return "<unknown scancode %x>"%code
-    return _SCANCODE_QWERTY_[code];
+    if not code in _SCANCODE_QWERTY_:
+        return b"<unknown scancode %x>"%code
+    return _SCANCODE_QWERTY_[code]

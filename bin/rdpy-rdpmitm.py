@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2014-2015 Sylvain Peyrefitte
 #
@@ -272,7 +272,7 @@ class ProxyClientFactory(rdp.ClientFactory):
 
 def parseIpPort(interface, defaultPort="3389"):
     if ':' in interface:
-        s = interface.split(':')
+        s = interface.rsplit(':', 1)
         return s[0], int(s[1])
     else:
         return interface, int(defaultPort)

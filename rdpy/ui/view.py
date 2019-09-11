@@ -20,8 +20,8 @@
 """
 Fake widget
 """
-from rdpy.core.error import CallPureVirtualFuntion
-from PyQt4 import QtGui, QtCore
+from rdpy.core.error import CallPureVirtualFunction
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 
 class KeyCode(object):
@@ -42,20 +42,20 @@ class IRender(object):
         @param dx: delta x
         @param dy: delta y
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "translate", "IRender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "translate", "IRender"))
     
     def drawImage(self, image):
         """
         Draw QImage
         @param image: QImage
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "drawImage", "IRender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "drawImage", "IRender"))
     
     def getImageFormat(self):
         """
         @return: Image format use for render
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "getImageFormat", "IRender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "getImageFormat", "IRender"))
 
 class IView(object):
     """
@@ -66,7 +66,7 @@ class IView(object):
         Key event notification
         @param code: scan code
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "keyEvent", "IView"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "keyEvent", "IView"))
 
     def pointerEvent(self, x, y, button):
         """
@@ -75,7 +75,7 @@ class IView(object):
         @param y: y position
         @param button: button pressed
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "pointerEvent", "IView"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "pointerEvent", "IView"))
 
     def update(self, render, force = False):
         """
@@ -83,7 +83,7 @@ class IView(object):
         @param render: IRender
         @param force: force update
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "update", "IView"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "update", "IView"))
 
 
 class Anchor(IView):
@@ -256,4 +256,3 @@ class RDPRenderer(IRender):
             ptr = tmp.bits()
             ptr.setsize(tmp.byteCount())
             self._controller.sendUpdate(self._dx, i + self._dy, image.width() + self._dx - 1, i + self._dy, tmp.width(), tmp.height(), self._colorDepth, False, ptr.asstring())
-        

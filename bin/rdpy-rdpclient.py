@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2014-2015 Sylvain Peyrefitte
 #
@@ -23,8 +23,8 @@ example of use rdpy as rdp client
 
 import sys, os, getopt, socket
 
-from PyQt4 import QtGui, QtCore
-from rdpy.ui.qt4 import RDPClientQt
+from PyQt5 import QtGui, QtCore, QtWidgets
+from rdpy.ui.qt5 import RDPClientQt
 from rdpy.protocol.rdp import rdp
 from rdpy.core.error import RDPSecurityNegoFail
 from rdpy.core import rss
@@ -211,7 +211,7 @@ def autoDetectKeyboardLayout():
     return "en"
         
 def help():
-    print """
+    print("""
     Usage: rdpy-rdpclient [options] ip[:port]"
     \t-u: user name
     \t-p: password
@@ -222,7 +222,7 @@ def help():
     \t-k: keyboard layout [en|fr] [default : en]
     \t-o: optimized session (disable costly effect) [default : False]
     \t-r: rss_filepath Recorded Session Scenario [default : None]
-    """
+    """)
         
 if __name__ == '__main__':
     
@@ -265,20 +265,20 @@ if __name__ == '__main__':
             recodedPath = arg
             
     if ':' in args[0]:
-        ip, port = args[0].split(':')
+        ip, port = args[0].rsplit(':', 1)
     else:
         ip, port = args[0], "3389"
     
     #create application
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     
-    #add qt4 reactor
-    import qt4reactor
-    qt4reactor.install()
+    #add qt5 reactor
+    import qt5reactor
+    qt5reactor.install()
     
     if fullscreen:
-        width = QtGui.QDesktopWidget().screenGeometry().width()
-        height = QtGui.QDesktopWidget().screenGeometry().height()
+        width = QtWidgets.QDesktopWidget().screenGeometry().width()
+        height = QtWidgets.QDesktopWidget().screenGeometry().height()
     
     log.info("keyboard layout set to %s"%keyboardLayout)
     

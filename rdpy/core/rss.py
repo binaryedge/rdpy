@@ -219,7 +219,7 @@ class FileRecorder(object):
         screenEvent.colorDepth.value = colorDepth
         self.rec(screenEvent)
         
-    def credentials(self, username, password, domain = "", hostname = ""):
+    def credentials(self, username, password, domain = b"", hostname = b""):
         """
         @summary: Record informations event
         @param username: {str} username of session

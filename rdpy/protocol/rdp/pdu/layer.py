@@ -24,11 +24,11 @@ In this layer are managed all mains bitmap update orders end user inputs
 """
 
 from rdpy.core.layer import LayerAutomata
-from rdpy.core.error import CallPureVirtualFuntion
+from rdpy.core.error import CallPureVirtualFunction
 from rdpy.core.type import ArrayType
 import rdpy.core.log as log
 import rdpy.protocol.rdp.tpkt as tpkt
-import data, caps
+from rdpy.protocol.rdp.pdu import data, caps
 
 class PDUClientListener(object):
     """
@@ -38,13 +38,13 @@ class PDUClientListener(object):
         """
         @summary: Event call when PDU layer is ready to send events
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onReady", "PDUClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onReady", "PDUClientListener"))
     
     def onSessionReady(self):
         """
         @summary: Event call when Windows session is ready
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onSessionReady", "PDUClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onSessionReady", "PDUClientListener"))
     
     
     def onUpdate(self, rectangles):
@@ -52,7 +52,7 @@ class PDUClientListener(object):
         @summary: call when a bitmap data is received from update PDU
         @param rectangles: [pdu.BitmapData] struct
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onUpdate", "PDUClientListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onUpdate", "PDUClientListener"))
     
     def recvDstBltOrder(self, order):
         """
@@ -68,14 +68,14 @@ class PDUServerListener(object):
         """
         @summary: Event call when PDU layer is ready to send update
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onReady", "PDUServerListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onReady", "PDUServerListener"))
     
     def onSlowPathInput(self, slowPathInputEvents):
         """
         @summary: Event call when slow path input are available
         @param slowPathInputEvents: [data.SlowPathInputEvent]
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "onSlowPathInput", "PDUServerListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "onSlowPathInput", "PDUServerListener"))
     
 class PDULayer(LayerAutomata, tpkt.IFastPathListener):
     """
@@ -301,7 +301,7 @@ class Client(PDULayer):
             if dataPDU.pduData.errorInfo.value == 0:
                 return
             errorMessage = "Unknown code %s"%hex(dataPDU.pduData.errorInfo.value)
-            if data.ErrorInfo._MESSAGES_.has_key(dataPDU.pduData.errorInfo):
+            if dataPDU.pduData.errorInfo in data.ErrorInfo._MESSAGES_:
                 errorMessage = data.ErrorInfo._MESSAGES_[dataPDU.pduData.errorInfo] 
             log.error("INFO PDU : %s"%errorMessage)
             
@@ -520,7 +520,7 @@ class Server(PDULayer):
         """
         if dataPDU.shareDataHeader.pduType2.value == data.PDUType2.PDUTYPE2_SET_ERROR_INFO_PDU:
             errorMessage = "Unknown code %s"%hex(dataPDU.pduData.errorInfo.value)
-            if data.ErrorInfo._MESSAGES_.has_key(dataPDU.pduData.errorInfo):
+            if dataPDU.pduData.errorInfo in data.ErrorInfo._MESSAGES_:
                 errorMessage = data.ErrorInfo._MESSAGES_[dataPDU.pduData.errorInfo]
             log.error("INFO PDU : %s"%errorMessage)
             

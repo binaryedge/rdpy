@@ -51,7 +51,7 @@ def RC4(key):
     return PRGA(S)
 
 def RC4Key(key):
-    return RC4([ord(c) for c in key])
+    return RC4([c for c in key])
 
 def crypt(keystream, plaintext):
-    return "".join([chr(ord(c) ^ keystream.next()) for c in plaintext])
+    return b"".join([c ^ keystream.next() for c in plaintext])

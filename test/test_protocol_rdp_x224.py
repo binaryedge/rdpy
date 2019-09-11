@@ -53,12 +53,12 @@ class X224Test(unittest.TestCase):
         """
         class Presentation(object):
             def recv(self, data):
-                data.readType(type.String('test_x224_layer_recvData', constant = True))
+                data.readType(type.String(b'test_x224_layer_recvData', constant = True))
                 raise X224Test.X224_PASS()
                 
         layer = x224.X224Layer(Presentation())
         s = type.Stream()
-        s.writeType((x224.X224DataHeader(), type.String('test_x224_layer_recvData')))
+        s.writeType((x224.X224DataHeader(), type.String(b'test_x224_layer_recvData')))
         #reinit position
         s.pos = 0
         
@@ -74,13 +74,13 @@ class X224Test(unittest.TestCase):
                 s.writeType(data)
                 s.pos = 0
                 s.readType(x224.X224DataHeader())
-                s.readType(type.String('test_x224_layer_send', constant = True))
+                s.readType(type.String(b'test_x224_layer_send', constant = True))
                 raise X224Test.X224_PASS()
         
         layer = x224.X224Layer(None)
         layer._transport = Transport()
         
-        self.assertRaises(X224Test.X224_PASS, layer.send, type.String('test_x224_layer_send'))
+        self.assertRaises(X224Test.X224_PASS, layer.send, type.String(b'test_x224_layer_send'))
         
     def test_x224_client_connect(self):
         """
@@ -105,7 +105,7 @@ class X224Test(unittest.TestCase):
         layer.recvConnectionConfirm = nextAutomata
         layer.connect()
         
-        self.assertRaises(X224Test.X224_PASS, layer.recv, type.String('\x01\x02'))  
+        self.assertRaises(X224Test.X224_PASS, layer.recv, type.String(b'\x01\x02'))  
 
     def test_x224_client_recvConnectionConfirm_negotiation_failure(self):
         """
@@ -155,7 +155,7 @@ class X224Test(unittest.TestCase):
         
         self.assertTrue(tls_begin, "TLS is not started")
         self.assertTrue(presentation_connect, "connect event is not forwarded")
-        self.assertRaises(X224Test.X224_PASS, layer.recv, type.String('\x01\x02'))
+        self.assertRaises(X224Test.X224_PASS, layer.recv, type.String(b'\x01\x02'))
         
     def test_x224_server_recvConnectionRequest_client_accept_ssl(self):
         """

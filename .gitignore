@@ -1,4 +1,6 @@
 *.pyc
+.vagrant
+.vscode
 .project
 .pydevproject
 README.md~
@@ -6,4 +8,6 @@ README.md~
 *.os
 dist/*
 build/*
-rdpy.egg-info/*
+rdpy.egg-info
+ubuntu*.log
+rdpy-old

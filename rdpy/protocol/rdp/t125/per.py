@@ -238,9 +238,9 @@ def writeNumericString(nStr, minValue):
     result = []
     
     for i in range(0, length, 2):
-        c1 = ord(nStr[i])
+        c1 = nStr[i]
         if i + 1 < length:
-            c2 = ord(nStr[i + 1])
+            c2 = nStr[i + 1]
         else:
             c2 = 0x30
         c1 = (c1 - 0x30) % 10
@@ -264,7 +264,7 @@ def writePadding(length):
     @param length: length of padding
     @return: String with \x00 * length
     """
-    return String("\x00"*length)
+    return String(b"\x00"*length)
 
 def readOctetStream(s, octetStream, minValue = 0):
     """
@@ -280,7 +280,7 @@ def readOctetStream(s, octetStream, minValue = 0):
     for i in range(0, size):
         c = UInt8()
         s.readType(c)
-        if ord(octetStream[i]) != c.value:
+        if octetStream[i] != c.value:
             return False
         
     return True
@@ -300,6 +300,6 @@ def writeOctetStream(oStr, minValue = 0):
     
     result = []
     for i in range(0, length):
-        result.append(UInt8(ord(oStr[i])))
+        result.append(UInt8(oStr[i]))
     
     return (writeLength(mlength), tuple(result))

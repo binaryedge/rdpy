@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright (c) 2014-2015 Sylvain Peyrefitte
 #
@@ -24,10 +24,10 @@ take screenshot of login page
 """
 
 import sys, os, getopt
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from rdpy.protocol.rfb import rfb
 import rdpy.core.log as log
-from rdpy.ui.qt4 import qtImageFormatFromRFBPixelFormat
+from rdpy.ui.qt5 import qtImageFormatFromRFBPixelFormat
 from twisted.internet import task
 
 #set log level
@@ -132,9 +132,9 @@ class RFBScreenShotFactory(rfb.ClientFactory):
         return ScreenShotObserver(controller, self._path)
         
 def help():
-    print "Usage: rdpy-vncscreenshot [options] ip[:port]"
-    print "\t-o: file path of screenshot default(/tmp/rdpy-vncscreenshot.jpg)"
-    print "\t-p: password for VNC Session"
+    print("Usage: rdpy-vncscreenshot [options] ip[:port]")
+    print("\t-o: file path of screenshot default(/tmp/rdpy-vncscreenshot.jpg)")
+    print("\t-p: password for VNC Session")
         
 if __name__ == '__main__':
     #default script argument
@@ -155,17 +155,17 @@ if __name__ == '__main__':
             password = arg
         
     #create application
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     
-    #add qt4 reactor
-    import qt4reactor
-    qt4reactor.install()
+    #add qt5 reactor
+    import qt5reactor
+    qt5reactor.install()
     from twisted.internet import reactor
 
     
     for arg in args:      
         if ':' in arg:
-            ip, port = arg.split(':')
+            ip, port = arg.rsplit(':', 1)
         else:
             ip, port = arg, "5900"
         

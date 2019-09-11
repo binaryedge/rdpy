@@ -279,7 +279,7 @@ class CSSP(protocol.Protocol):
         request = decodeDERTRequest(data)
         pubKeyInc = self._interface.GSS_UnWrapEx(getPubKeyAuth(request))
         #check pubKeyInc = self._pubKeyBer + 1
-        if not (self._pubKeyBer[1:] == pubKeyInc[1:] and ord(self._pubKeyBer[0]) + 1 == ord(pubKeyInc[0])):
+        if not (self._pubKeyBer[1:] == pubKeyInc[1:] and self._pubKeyBer[0] + 1 == pubKeyInc[0]):
             raise error.InvalidExpectedDataException("CSSP : Invalid public key increment")
         
         domain, user, password = self._authenticationProtocol.getEncodedCredentials()

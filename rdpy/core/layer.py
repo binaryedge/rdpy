@@ -23,7 +23,7 @@ Join RDPY design with twisted design
 RDPY use Layer Protocol design (like twisted)
 """
 
-from rdpy.core.error import CallPureVirtualFuntion
+from rdpy.core.error import CallPureVirtualFunction
 
 class IStreamListener(object):
     """
@@ -34,7 +34,7 @@ class IStreamListener(object):
         @summary: Signal that data is available
         @param s: Stream
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
     
 class IStreamSender(object):
     """
@@ -45,7 +45,7 @@ class IStreamSender(object):
         @summary: Send Stream on layer
         @param data: Type or tuple element handle by transport layer
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "send", "IStreamSender"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "send", "IStreamSender"))
     
 class Layer(object):
     """
@@ -107,7 +107,7 @@ class LayerAutomata(Layer, IStreamListener):
 from twisted.internet import protocol
 from twisted.internet.abstract import FileDescriptor
 #first that handle stream     
-from type import Stream
+from rdpy.core.type import Stream
 
 class RawLayerClientFactory(protocol.ClientFactory):
     """
@@ -127,7 +127,7 @@ class RawLayerClientFactory(protocol.ClientFactory):
         @summary: Override this function to build raw layer
         @param addr: destination address
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "buildRawLayer", "RawLayerClientFactory"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "buildRawLayer", "RawLayerClientFactory"))
     
     def connectionLost(self, rawlayer, reason):
         """
@@ -135,7 +135,7 @@ class RawLayerClientFactory(protocol.ClientFactory):
         @param rawlayer: rawLayer that cause connectionLost event
         @param reason: twisted reason
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "connectionLost", "RawLayerClientFactory"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "connectionLost", "RawLayerClientFactory"))
     
 class RawLayerServerFactory(protocol.ServerFactory):
     """
@@ -155,7 +155,7 @@ class RawLayerServerFactory(protocol.ServerFactory):
         @summary: Override this function to build raw layer
         @param addr: destination address
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
     
     def connectionLost(self, rawlayer, reason):
         """
@@ -163,7 +163,7 @@ class RawLayerServerFactory(protocol.ServerFactory):
         @param rawlayer: rawLayer that cause connectionLost event
         @param reason: twisted reason
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "recv", "IStreamListener"))
     
 
 class RawLayer(protocol.Protocol, LayerAutomata, IStreamSender):
@@ -179,7 +179,7 @@ class RawLayer(protocol.Protocol, LayerAutomata, IStreamSender):
         #call parent automata
         LayerAutomata.__init__(self, presentation)
         #data buffer received from twisted network layer
-        self._buffer = ""
+        self._buffer = b""
         #len of next packet pass to next state function
         self._expectedLen = 0
         self._factory = None

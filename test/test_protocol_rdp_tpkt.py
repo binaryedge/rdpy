@@ -60,10 +60,10 @@ class TPKTTest(unittest.TestCase):
             def connect(self):
                 pass
             def recv(self, data):
-                data.readType(type.String("test_tpkt_layer_recv", constant = True))
+                data.readType(type.String(b"test_tpkt_layer_recv", constant = True))
                 raise TPKTTest.TPKT_PASS()
             
-        message = type.String("test_tpkt_layer_recv")
+        message = type.String(b"test_tpkt_layer_recv")
         
         s = type.Stream()
         s.writeType((type.UInt8(tpkt.Action.FASTPATH_ACTION_X224), type.UInt8(), type.UInt16Be(type.sizeof(message) + 4), message))
@@ -80,10 +80,10 @@ class TPKTTest(unittest.TestCase):
             def setFastPathSender(self, fastPathSender):
                 pass
             def recvFastPath(self, secFlag, fastPathS):
-                fastPathS.readType(type.String("test_tpkt_layer_recv_fastpath", constant = True))
+                fastPathS.readType(type.String(b"test_tpkt_layer_recv_fastpath", constant = True))
                 raise TPKTTest.TPKT_PASS()
             
-        message = type.String("test_tpkt_layer_recv_fastpath")
+        message = type.String(b"test_tpkt_layer_recv_fastpath")
         
         s = type.Stream()
         s.writeType((type.UInt8(tpkt.Action.FASTPATH_ACTION_FASTPATH), type.UInt8(type.sizeof(message) + 2), message))
@@ -101,10 +101,10 @@ class TPKTTest(unittest.TestCase):
             def setFastPathSender(self, fastPathSender):
                 pass
             def recvFastPath(self, secflag, fastPathS):
-                fastPathS.readType(type.String("test_tpkt_layer_recv_fastpath_ext_length", constant = True))
+                fastPathS.readType(type.String(b"test_tpkt_layer_recv_fastpath_ext_length", constant = True))
                 raise TPKTTest.TPKT_PASS()
             
-        message = type.String("test_tpkt_layer_recv_fastpath_ext_length")
+        message = type.String(b"test_tpkt_layer_recv_fastpath_ext_length")
         
         s = type.Stream()
         s.writeType((type.UInt8(tpkt.Action.FASTPATH_ACTION_FASTPATH), type.UInt16Be((type.sizeof(message) + 3) | 0x8000), message))

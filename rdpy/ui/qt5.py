@@ -23,10 +23,10 @@ Qt specific code
 QRemoteDesktop is a widget use for render in rdpy
 """
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 from rdpy.protocol.rfb.rfb import RFBClientObserver
 from rdpy.protocol.rdp.rdp import RDPClientObserver
-from rdpy.core.error import CallPureVirtualFuntion
+from rdpy.core.error import CallPureVirtualFunction
 import sys
 
 import rdpy.core.log as log
@@ -43,7 +43,7 @@ class QAdaptor(object):
         @param e: QMouseEvent
         @param isPressed: event come from press or release action
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "sendMouseEvent", "QAdaptor")) 
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "sendMouseEvent", "QAdaptor")) 
         
     def sendKeyEvent(self, e, isPressed):
         """
@@ -51,21 +51,21 @@ class QAdaptor(object):
         @param e: QEvent
         @param isPressed: event come from press or release action
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "sendKeyEvent", "QAdaptor"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "sendKeyEvent", "QAdaptor"))
      
     def sendWheelEvent(self, e):
         """
         @summary: Interface to send wheel event to protocol stack
         @param e: QWheelEvent
         """
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "sendWheelEvent", "QAdaptor")) 
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "sendWheelEvent", "QAdaptor")) 
     
     def closeEvent(self, e):
         """
         @summary: Call when you want to close connection
         @param: QCloseEvent
         """ 
-        raise CallPureVirtualFuntion("%s:%s defined by interface %s"%(self.__class__, "closeEvent", "QAdaptor"))
+        raise CallPureVirtualFunction("%s:%s defined by interface %s"%(self.__class__, "closeEvent", "QAdaptor"))
     
 def qtImageFormatFromRFBPixelFormat(pixelFormat):
     """
@@ -330,7 +330,7 @@ class RDPClientQt(RDPClientObserver, QAdaptor):
         #do something maybe a message
 
         
-class QRemoteDesktop(QtGui.QWidget):
+class QRemoteDesktop(QtWidgets.QWidget):
     """
     @summary: Qt display widget
     """

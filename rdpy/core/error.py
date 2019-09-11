@@ -21,7 +21,7 @@
 All exceptions error use in RDPY
 """
 
-class CallPureVirtualFuntion(Exception):
+class CallPureVirtualFunction(Exception):
     """
     @summary: Raise when a virtual function is called and not implemented
     """
